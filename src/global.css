@@ -1,0 +1,15 @@
+.oss-experience {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: #f4f0e8;
+  background: #05090c;
+}
+.oss-engine-credit {
+  position: absolute;
+  z-index: 5;
+  bottom: 12px;
+  right: 16px;
+  color: rgba(255,255,255,0.3);
+  font-size: 10px;
+}
