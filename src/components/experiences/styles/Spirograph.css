@@ -1,0 +1,269 @@
+/* ============================================================
+   Spirograph · 万花尺（内旋轮线）
+   ============================================================ */
+.spiro-experience {
+  --s-yellow: #ffd166;
+  --s-cyan: #4dd0e1;
+  --s-purple: #b15cff;
+  --s-red: #ff6b6b;
+}
+.spiro-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+}
+.spiro-question {
+  position: absolute;
+  top: 76px;
+  left: 20px;
+  z-index: 10;
+  max-width: min(540px, 62vw);
+  pointer-events: none;
+}
+.spiro-question h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #f1f5f9;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
+}
+.spiro-question p {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: rgba(203, 213, 225, 0.85);
+}
+.spiro-why-btn {
+  pointer-events: auto;
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(4, 8, 14, 0.62);
+  backdrop-filter: blur(10px);
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.spiro-why-btn:hover { border-color: var(--s-cyan); color: var(--s-cyan); }
+.spiro-readout {
+  position: absolute;
+  top: 76px;
+  right: 18px;
+  z-index: 10;
+  width: 200px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(4, 8, 14, 0.62);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.spiro-readout-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.spiro-readout-row small { font-size: 11px; color: rgba(148, 163, 184, 0.9); }
+.spiro-readout-row strong {
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #e8eef7;
+}
+.spiro-readout-row .is-yellow { color: var(--s-yellow); }
+.spiro-readout-row .is-cyan { color: var(--s-cyan); }
+.spiro-success {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--s-cyan);
+  background: rgba(77, 208, 225, 0.1);
+  border: 1px solid rgba(77, 208, 225, 0.35);
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+.spiro-controls {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 16px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 96vw;
+}
+.spiro-transport {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(4, 8, 14, 0.62);
+  backdrop-filter: blur(12px);
+}
+.spiro-icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.spiro-icon-btn:hover { border-color: var(--s-yellow); color: var(--s-yellow); }
+.spiro-slider-group {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.spiro-param {
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(4, 8, 14, 0.62);
+  backdrop-filter: blur(12px);
+  min-width: 180px;
+}
+.spiro-param label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: rgba(148, 163, 184, 0.9);
+}
+.spiro-param label strong { color: var(--s-yellow); font-size: 12px; }
+.spiro-experience input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  margin-top: 10px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.14);
+  outline: none;
+}
+.spiro-experience input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--s-yellow);
+  border: 2px solid #0d1117;
+  cursor: pointer;
+}
+.spiro-experience input[type='range']::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--s-yellow);
+  border: 2px solid #0d1117;
+  cursor: pointer;
+}
+.spiro-hint {
+  font-size: 11px;
+  color: rgba(125, 139, 176, 0.85);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+}
+.spiro-credit { pointer-events: none; }
+
+/* Why panel */
+.spiro-why {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(2, 4, 10, 0.72);
+  backdrop-filter: blur(6px);
+}
+.spiro-why-card {
+  position: relative;
+  max-width: 580px;
+  max-height: 82vh;
+  overflow: auto;
+  padding: 26px 28px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(6, 10, 18, 0.92);
+}
+.spiro-why-card h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+.spiro-why-card p {
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: rgba(203, 213, 225, 0.9);
+}
+.spiro-why-card .spiro-formula {
+  font-family: ui-monospace, 'SF Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.9;
+  color: var(--s-cyan);
+  background: rgba(77, 208, 225, 0.06);
+  border: 1px solid rgba(77, 208, 225, 0.2);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+.spiro-why-card .is-purple { color: var(--s-purple); font-weight: 700; }
+.spiro-why-card small {
+  display: block;
+  margin-top: 14px;
+  font-size: 11px;
+  color: rgba(125, 139, 176, 0.75);
+}
+.spiro-why-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.spiro-why-close:hover { border-color: var(--s-red); color: var(--s-red); }
+
+@media (max-width: 720px) {
+  .spiro-question { top: 64px; left: 16px; right: 16px; max-width: none; }
+  .spiro-question p { display: none; }
+  .spiro-readout { top: 118px; right: 12px; width: 160px; padding: 9px 11px; gap: 5px; }
+  .spiro-readout-row strong { font-size: 12.5px; }
+  .spiro-slider-group { flex-direction: column; gap: 8px; }
+  .spiro-param { min-width: 0; width: 100%; }
+  .spiro-hint { display: none; }
+}

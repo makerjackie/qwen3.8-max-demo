@@ -1,0 +1,343 @@
+/* ============================================================
+   MolecularVibration · 分子简正模式振动
+   ============================================================ */
+.mvib-experience {
+  --mv-yellow: #ffd166;
+  --mv-cyan: #4dd0e1;
+  --mv-purple: #b15cff;
+  --mv-red: #ff6b6b;
+}
+.mvib-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ---------- Question header ---------- */
+.mvib-question {
+  position: absolute;
+  top: 72px;
+  left: 20px;
+  z-index: 10;
+  max-width: min(480px, 58vw);
+  pointer-events: none;
+}
+.mvib-question h1 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+  color: #f1f5f9;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
+}
+.mvib-question p {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: rgba(203, 213, 225, 0.85);
+}
+.mvib-why-btn {
+  pointer-events: auto;
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(4, 8, 14, 0.62);
+  backdrop-filter: blur(10px);
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.mvib-why-btn:hover {
+  border-color: var(--mv-cyan);
+  color: var(--mv-cyan);
+}
+
+/* ---------- Molecule selector ---------- */
+.mvib-mol-btns {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+.mvib-mol-btn {
+  padding: 7px 18px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 209, 102, 0.35);
+  background: rgba(13, 17, 23, 0.72);
+  backdrop-filter: blur(8px);
+  color: rgba(255, 209, 102, 0.8);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mvib-mol-btn:hover {
+  border-color: var(--mv-yellow);
+  background: rgba(255, 209, 102, 0.1);
+}
+.mvib-mol-btn.is-active {
+  border-color: var(--mv-yellow);
+  background: rgba(255, 209, 102, 0.18);
+  color: var(--mv-yellow);
+  box-shadow: 0 0 12px rgba(255, 209, 102, 0.25);
+}
+
+/* ---------- Mode selector ---------- */
+.mvib-mode-btns {
+  position: absolute;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.mvib-mode-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 209, 102, 0.3);
+  background: rgba(13, 17, 23, 0.75);
+  backdrop-filter: blur(8px);
+  color: rgba(255, 209, 102, 0.75);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mvib-mode-btn:hover {
+  border-color: var(--mv-yellow);
+  background: rgba(255, 209, 102, 0.08);
+}
+.mvib-mode-btn.is-active {
+  border-color: var(--mv-yellow);
+  background: rgba(255, 209, 102, 0.16);
+  color: var(--mv-yellow);
+  box-shadow: 0 0 14px rgba(255, 209, 102, 0.2);
+}
+.mvib-mode-name {
+  font-size: 13px;
+  font-weight: 700;
+}
+.mvib-mode-freq {
+  font-size: 10.5px;
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Bottom controls ---------- */
+.mvib-controls {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(13, 17, 23, 0.78);
+  backdrop-filter: blur(12px);
+}
+.mvib-play-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 209, 102, 0.4);
+  background: rgba(255, 209, 102, 0.1);
+  color: var(--mv-yellow);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mvib-play-btn:hover {
+  background: rgba(255, 209, 102, 0.2);
+  box-shadow: 0 0 10px rgba(255, 209, 102, 0.3);
+}
+.mvib-amp-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 209, 102, 0.85);
+}
+.mvib-amp-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 110px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 209, 102, 0.2);
+  outline: none;
+  cursor: pointer;
+}
+.mvib-amp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--mv-yellow);
+  box-shadow: 0 0 8px rgba(255, 209, 102, 0.5);
+  cursor: grab;
+}
+.mvib-amp-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: none;
+  background: var(--mv-yellow);
+  box-shadow: 0 0 8px rgba(255, 209, 102, 0.5);
+  cursor: grab;
+}
+.mvib-challenge-hint {
+  font-size: 11px;
+  color: rgba(203, 213, 225, 0.7);
+  max-width: 200px;
+  line-height: 1.4;
+}
+.mvib-challenge-hint svg {
+  color: var(--mv-yellow);
+  vertical-align: -2px;
+  margin-right: 4px;
+}
+
+/* ---------- Why panel ---------- */
+.mvib-why {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 7, 15, 0.7);
+  backdrop-filter: blur(6px);
+}
+.mvib-why-card {
+  position: relative;
+  max-width: 520px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 28px 26px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 20, 30, 0.92);
+  backdrop-filter: blur(16px);
+  color: #e2e8f0;
+}
+.mvib-why-card h2 {
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+.mvib-why-card p {
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: rgba(203, 213, 225, 0.9);
+}
+.mvib-why-card small {
+  display: block;
+  margin-top: 14px;
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.7);
+}
+.mvib-why-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.mvib-why-close:hover {
+  color: #f1f5f9;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.mvib-is-purple {
+  color: var(--mv-purple);
+  font-weight: 700;
+}
+.mvib-is-red {
+  color: var(--mv-red);
+  font-weight: 700;
+}
+
+/* ---------- Engine credit ---------- */
+.mvib-credit {
+  position: absolute;
+  bottom: 4px;
+  right: 12px;
+  z-index: 5;
+  font-size: 10px;
+  color: rgba(148, 163, 184, 0.4);
+  pointer-events: none;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 720px) {
+  .mvib-question {
+    top: 60px;
+    left: 14px;
+    max-width: 70vw;
+  }
+  .mvib-question h1 {
+    font-size: 15px;
+  }
+  .mvib-mol-btns {
+    top: 12px;
+    gap: 6px;
+  }
+  .mvib-mol-btn {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+  .mvib-mode-btns {
+    bottom: 78px;
+    gap: 6px;
+  }
+  .mvib-mode-btn {
+    padding: 6px 12px;
+  }
+  .mvib-controls {
+    bottom: 12px;
+    padding: 8px 14px;
+    gap: 10px;
+  }
+  .mvib-amp-slider {
+    width: 80px;
+  }
+  .mvib-challenge-hint {
+    max-width: 140px;
+    font-size: 10px;
+  }
+}

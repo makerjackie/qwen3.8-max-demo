@@ -1,0 +1,422 @@
+/* ============================================================
+   Sandpile · 阿贝尔沙堆模型
+   模块前缀 .sandpile-，根容器 .oss-experience.sandpile-experience
+   ============================================================ */
+.sandpile-experience {
+  --p-yellow: #ffd166;
+  --p-cyan: #4dd0e1;
+  --p-purple: #b15cff;
+  --p-red: #ff6b6b;
+}
+
+/* ─── Canvas ─────────────────────────────────────────────────── */
+.sandpile-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* ─── Header ─────────────────────────────────────────────────── */
+.sandpile-header {
+  position: absolute;
+  top: 72px;
+  left: 20px;
+  z-index: 10;
+  max-width: min(400px, 32vw);
+  pointer-events: none;
+}
+.sandpile-header h1 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+  color: #f1f5f9;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
+  line-height: 1.4;
+}
+.sandpile-header p {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(203, 213, 225, 0.85);
+}
+.sandpile-why-btn {
+  pointer-events: auto;
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(4, 8, 14, 0.62);
+  backdrop-filter: blur(10px);
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.sandpile-why-btn:hover {
+  border-color: var(--p-cyan);
+  color: var(--p-cyan);
+}
+
+/* ─── Stats panel ────────────────────────────────────────────── */
+.sandpile-stats {
+  position: absolute;
+  top: 72px;
+  right: 18px;
+  z-index: 10;
+  width: 200px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(4, 8, 14, 0.62);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sandpile-stat-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.sandpile-stat-row small {
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.9);
+}
+.sandpile-stat-row strong {
+  font-size: 16px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  color: #e8eef7;
+}
+.sandpile-stat-cyan { color: var(--p-cyan) !important; }
+.sandpile-stat-purple { color: var(--p-purple) !important; }
+
+.sandpile-success {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--p-cyan);
+  background: rgba(77, 208, 225, 0.1);
+  border: 1px solid rgba(77, 208, 225, 0.35);
+  border-radius: 8px;
+  padding: 6px 8px;
+  animation: sandpile-pulse 1.5s ease-in-out infinite;
+}
+.sandpile-challenge-hint {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 209, 102, 0.9);
+  background: rgba(255, 209, 102, 0.06);
+  border: 1px solid rgba(255, 209, 102, 0.2);
+  border-radius: 8px;
+  padding: 5px 8px;
+}
+
+@keyframes sandpile-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ─── Control bar ────────────────────────────────────────────── */
+.sandpile-controls {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 16px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 96vw;
+  padding: 10px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(4, 8, 14, 0.68);
+  backdrop-filter: blur(16px);
+}
+
+/* Play/Pause button */
+.sandpile-play-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--p-cyan);
+  background: rgba(77, 208, 225, 0.12);
+  color: var(--p-cyan);
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.sandpile-play-btn:hover {
+  background: rgba(77, 208, 225, 0.22);
+  transform: scale(1.08);
+}
+.sandpile-play-btn.is-playing {
+  box-shadow: 0 0 12px rgba(77, 208, 225, 0.3);
+  animation: sandpile-breathe 2s ease-in-out infinite;
+}
+@keyframes sandpile-breathe {
+  0%, 100% { box-shadow: 0 0 8px rgba(77, 208, 225, 0.2); }
+  50% { box-shadow: 0 0 18px rgba(77, 208, 225, 0.45); }
+}
+
+/* Sliders */
+.sandpile-slider {
+  padding: 6px 12px;
+  min-width: 130px;
+}
+.sandpile-slider label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(148, 163, 184, 0.9);
+}
+.sandpile-val {
+  color: var(--p-yellow) !important;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.sandpile-experience input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  margin-top: 8px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(77, 208, 225, 0.35), rgba(177, 92, 255, 0.45));
+  outline: none;
+}
+.sandpile-experience input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--p-yellow);
+  border: 2px solid #0d1117;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.sandpile-experience input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+.sandpile-experience input[type='range']::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--p-yellow);
+  border: 2px solid #0d1117;
+  cursor: pointer;
+}
+
+/* Drop mode buttons */
+.sandpile-mode {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sandpile-mode-btn {
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.sandpile-mode-btn:hover {
+  border-color: var(--p-yellow);
+  color: var(--p-yellow);
+  background: rgba(255, 209, 102, 0.08);
+}
+.sandpile-mode-btn.is-active {
+  background: var(--p-yellow);
+  color: #0d1117;
+  border-color: var(--p-yellow);
+  font-weight: 700;
+}
+
+/* Action button */
+.sandpile-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sandpile-action-btn:hover {
+  border-color: var(--p-red);
+  color: var(--p-red);
+  background: rgba(255, 107, 107, 0.08);
+}
+.sandpile-action-btn svg {
+  font-size: 14px;
+}
+
+/* ─── Why modal ──────────────────────────────────────────────── */
+.sandpile-why {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(2, 4, 10, 0.72);
+  backdrop-filter: blur(6px);
+  animation: sandpile-fade-in 0.2s ease;
+}
+@keyframes sandpile-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.sandpile-why-card {
+  position: relative;
+  max-width: 580px;
+  max-height: 82vh;
+  overflow: auto;
+  padding: 26px 28px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(6, 10, 18, 0.92);
+}
+.sandpile-why-card h2 {
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+.sandpile-why-card p {
+  margin: 0 0 12px;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: rgba(203, 213, 225, 0.92);
+}
+.sandpile-why-card strong { color: #fff; }
+.sandpile-why-card .sandpile-is-purple { color: var(--p-purple); font-weight: 700; }
+.sandpile-why-card .sandpile-is-cyan { color: var(--p-cyan); font-weight: 700; }
+.sandpile-why-card .sandpile-is-red { color: var(--p-red); font-weight: 700; }
+.sandpile-why-card small {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.75);
+}
+.sandpile-why-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.sandpile-why-close:hover {
+  border-color: var(--p-red);
+  color: var(--p-red);
+}
+
+/* ─── Credit ─────────────────────────────────────────────────── */
+.sandpile-credit { pointer-events: none; }
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  .sandpile-header {
+    top: 60px;
+    left: 14px;
+    max-width: 58vw;
+  }
+  .sandpile-header h1 {
+    font-size: 14px;
+  }
+  .sandpile-header p {
+    display: none;
+  }
+  .sandpile-stats {
+    top: 60px;
+    right: 10px;
+    width: 148px;
+    padding: 9px 10px;
+    gap: 5px;
+  }
+  .sandpile-stat-row strong {
+    font-size: 13px;
+  }
+  .sandpile-challenge-hint {
+    font-size: 10px;
+    padding: 4px 6px;
+  }
+  .sandpile-controls {
+    bottom: 10px;
+    padding: 8px 10px;
+    gap: 6px;
+    border-radius: 16px;
+    width: 94vw;
+  }
+  .sandpile-play-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 15px;
+  }
+  .sandpile-slider {
+    min-width: 100px;
+    padding: 4px 8px;
+  }
+  .sandpile-mode-btn {
+    padding: 5px 8px;
+    font-size: 10.5px;
+  }
+  .sandpile-action-btn span {
+    display: none;
+  }
+  .sandpile-action-btn {
+    padding: 8px 10px;
+  }
+  .sandpile-why-card {
+    padding: 20px 18px;
+    max-width: 92vw;
+  }
+  .sandpile-why-card h2 {
+    font-size: 15px;
+  }
+  .sandpile-why-card p {
+    font-size: 12.5px;
+  }
+}

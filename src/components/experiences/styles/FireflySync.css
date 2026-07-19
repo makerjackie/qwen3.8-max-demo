@@ -1,0 +1,260 @@
+/* ============================================================
+   FireflySync · 萤火虫同步（脉冲耦合振荡器）
+   ============================================================ */
+.firefly-experience {
+  --f-yellow: #ffd166;
+  --f-cyan: #4dd0e1;
+  --f-purple: #b15cff;
+  --f-red: #ff6b6b;
+  --f-flash: #ccff00;
+}
+.firefly-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.firefly-question {
+  position: absolute;
+  top: 52px;
+  left: 20px;
+  z-index: 10;
+  max-width: min(480px, 58vw);
+  pointer-events: none;
+}
+.firefly-question h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: #f1f5f9;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
+}
+.firefly-question p {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: rgba(203, 213, 225, 0.85);
+}
+.firefly-why-btn {
+  pointer-events: auto;
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(4, 12, 4, 0.62);
+  backdrop-filter: blur(10px);
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.firefly-why-btn:hover { border-color: var(--f-cyan); color: var(--f-cyan); }
+
+/* Readout panel */
+.firefly-readout {
+  position: absolute;
+  top: 52px;
+  right: 18px;
+  z-index: 10;
+  width: 200px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(4, 12, 4, 0.62);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.firefly-readout-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.firefly-readout-row small { font-size: 11px; color: rgba(148, 163, 184, 0.9); }
+.firefly-readout-row strong {
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #e8eef7;
+}
+.firefly-readout-row .is-cyan { color: var(--f-cyan); }
+.firefly-readout-row .is-red { color: var(--f-red); }
+.firefly-trophy {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 11px;
+  line-height: 1.55;
+  color: #c8ffc8;
+  background: rgba(77, 208, 225, 0.12);
+  border: 1px solid rgba(77, 208, 225, 0.35);
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+.firefly-trophy svg { flex: none; margin-top: 1px; color: var(--f-yellow); }
+
+/* Controls */
+.firefly-controls {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 14px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: 96vw;
+}
+.firefly-slider-group {
+  display: flex;
+  gap: 18px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(4, 12, 4, 0.68);
+  backdrop-filter: blur(12px);
+}
+.firefly-slider-group label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.firefly-slider-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--f-yellow);
+}
+.firefly-slider-val {
+  font-size: 10px;
+  color: rgba(203, 213, 225, 0.8);
+  font-variant-numeric: tabular-nums;
+}
+.firefly-slider-group input[type='range'] {
+  width: 100px;
+  height: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(255, 209, 102, 0.25);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.firefly-slider-group input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--f-yellow);
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 6px rgba(255, 209, 102, 0.5);
+}
+.firefly-slider-group input[type='range']::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--f-yellow);
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 6px rgba(255, 209, 102, 0.5);
+}
+.firefly-btn-row {
+  display: flex;
+  gap: 10px;
+}
+.firefly-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(4, 12, 4, 0.62);
+  backdrop-filter: blur(10px);
+  color: #e2e8f0;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.firefly-btn:hover { border-color: var(--f-cyan); color: var(--f-cyan); }
+.firefly-hint {
+  font-size: 11px;
+  color: rgba(125, 139, 176, 0.85);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+}
+.firefly-credit { pointer-events: none; }
+
+/* Why panel */
+.firefly-why {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(2, 6, 2, 0.72);
+  backdrop-filter: blur(6px);
+}
+.firefly-why-card {
+  position: relative;
+  max-width: 580px;
+  max-height: 82vh;
+  overflow: auto;
+  padding: 26px 28px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(6, 14, 6, 0.92);
+}
+.firefly-why-card h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #f1f5f9;
+}
+.firefly-why-card p {
+  margin: 0 0 10px;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: rgba(203, 213, 225, 0.92);
+}
+.firefly-why-card strong { color: #fff; }
+.firefly-why-card .is-purple { color: var(--f-purple); }
+.firefly-why-card .is-red { color: var(--f-red); }
+.firefly-why-card small {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.75);
+}
+.firefly-why-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .firefly-question { top: 44px; left: 14px; right: 14px; max-width: none; }
+  .firefly-question p { display: none; }
+  .firefly-readout { top: 96px; right: 10px; width: 156px; padding: 9px 11px; gap: 5px; }
+  .firefly-readout-row strong { font-size: 12.5px; }
+  .firefly-slider-group { flex-direction: column; gap: 10px; padding: 10px 14px; }
+  .firefly-slider-group input[type='range'] { width: 130px; }
+}
