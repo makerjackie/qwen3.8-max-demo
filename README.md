@@ -1,5 +1,7 @@
 # Qwen 3.8 Max Preview — Interactive Science Experiences Demo
 
+> **在线体验：https://makerjackie.github.io/qwen3.8-max-demo/**
+
 10 个交互式科学可视化体验，由 Qwen 3.8 Max Preview 为 [Shape of the World](https://shapeof.world) 平台构建。
 
 ## 体验列表
@@ -41,16 +43,21 @@ src/components/experiences/
 └── styles/                  # 各体验独立 CSS
 ```
 
-## 运行环境
+## 独立运行
 
-这些组件原本运行在 [Shape of the World](https://shapeof.world) 平台中，依赖以下平台基础设施：
+这些组件原本运行在 [Shape of the World](https://shapeof.world) 平台中，依赖 `ExperienceControls`、`useExperienceI18n()`、`GuideTour` / `GhostHint` 等平台接口。本仓库通过轻量 mock shim 实现了完全独立运行，无需平台环境。
 
-- `ExperienceControls` 生命周期（`completeOnboarding` / `registerInteraction` / `finish`）
-- `useExperienceI18n()` 国际化 hook（`tx()` 包裹所有可见文本）
-- `GuideTour` / `GhostHint` 引导组件
-- `ExperienceShell` 外壳（导航、进度、来源面板）
+## 本地开发
 
-如需独立运行，需 mock 上述接口。
+```bash
+npm install
+npm run dev      # 启动 Vite 开发服务器
+npm run build    # 生产构建
+```
+
+## 部署
+
+已配置 GitHub Actions 自动部署到 GitHub Pages。每次 push 到 `main` 分支即自动构建并发布到 https://makerjackie.github.io/qwen3.8-max-demo/ 。
 
 ## 制作记录
 
